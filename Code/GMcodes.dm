@@ -493,10 +493,14 @@ mob/GM
 
 		Sanctuario(mob/Player/p in view()&Players)
 			set category="Staff"
+			var/mob/Player/pusr = usr
 
-			p.FlickState("apparate",8,'Effects.dmi')
-			p.Transfer(locate("@Hogwarts"))
-			p << "<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Hogwarts.</span></b>"
+			if (pusr.Detention == 0)
+				p.FlickState("apparate",8,'Effects.dmi')
+				p.Transfer(locate("@Hogwarts"))
+				p << "<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Hogwarts.</span></b>"
+			else
+				usr << "<b><span style=\"color:red;\">Bad gm trying to escape detention</span></b>"
 
 
 
@@ -539,26 +543,32 @@ mob/proc/manual_view_player_log(ckey)
 //GM STANDARD GOTO COMMAND//
 mob/GM/verb
 	Goto(mob/M in world)
+		var/mob/Player/p = usr
 		set category = "Staff"
 		var/dense = density
-		src.density=0
-		src.Move(locate(M.x,M.y+1,M.z))
-		src.density=dense
-		M << "<b><span style=\"color:blue;\">[src]</span> has teleported to you.</b>"
-		src << "With a flick of your wand, you find yourself next to <b>[M]</b>."
+		if (p.Detention == 0)
+			src.density=0
+			src.Move(locate(M.x,M.y+1,M.z))
+			src.density=dense
+			M << "<b><span style=\"color:blue;\">[src]</span> has teleported to you.</b>"
+			src << "With a flick of your wand, you find yourself next to <b>[M]</b>."
+		else
+			usr << "<b><span style=\"color:red;\">Bad gm trying to escape detention</span></b>"
 
 
 
 mob/GM/verb/Orb_Surroundings(var/mob/M in world)
 	set category = "Staff"
 	set popup_menu = 0
-	for(var/mob/Player/K in oview(1))
-
-		var/rnd = rand(-1,1)
-		var/rnd2 = rand(-1,1)
-		K:Transfer(locate(M.x+rnd,M.y+rnd2,M.z))
-
-	usr:Transfer(locate(M.x,M.y+1,M.z))
+	var/mob/Player/p = usr
+	if (p.Detention == 0)
+		for(var/mob/Player/K in oview(1))
+			var/rnd = rand(-1,1)
+			var/rnd2 = rand(-1,1)
+			K:Transfer(locate(M.x+rnd,M.y+rnd2,M.z))
+		usr:Transfer(locate(M.x,M.y+1,M.z))
+	else
+		usr << "<b><span style=\"color:red;\">Bad gm trying to escape detention</span></b>"
 
 mob/GM/verb/Bring(mob/M in world)
 	set category = "Staff"
@@ -1126,35 +1136,43 @@ mob
 					Log_admin("[src] has disconnected [tmpname]")
 		Phase()
 			set category = "Staff"
-			if(usr.density == 1)
-				usr << "You phase out, allowing you to walk on water and through walls."//sends the msg to the user
-				usr.density = 0
-			else if(usr.density == 0)
-				usr << "You are solid again."
-				usr.density = 1
+			var/mob/Player/p = usr
+			if (p.Detention == 0)
+				if(usr.density == 1)
+					usr << "You phase out, allowing you to walk on water and through walls."//sends the msg to the user
+					usr.density = 0
+				else if(usr.density == 0)
+					usr << "You are solid again."
+					usr.density = 1
+			else
+				usr << "<b><span style=\"color:red;\">Bad gm trying to escape detention</span></b>"
 		Cloak()
 			set category = "Staff"
 			var/mob/Player/p = src
-			if(p.cloaked==0)
-				hearers() << "<b>[usr] has vanished."
-				p.FlickState("Orb",12,'Effects.dmi')
-				sleep(12)
-				p.icon = null
-				p.cloaked=1
-				p.density=0
-				p.underlays = list()
-				p.overlays = list()
+			if (p.Detention == 0)
+				if(p.cloaked==0)
+					hearers() << "<b>[usr] has vanished."
+					p.FlickState("Orb",12,'Effects.dmi')
+					sleep(12)
+					p.icon = null
+					p.cloaked=1
+					p.density=0
+					p.underlays = list()
+					p.overlays = list()
+				else
+					hearers() << "<b>[usr] has appeared."
+					//usr.icon = usr.mprevicon
+					p.FlickState("Orb",12,'Effects.dmi')
+					sleep(12)
+					p.icon = usr.baseicon
+					p.ApplyOverlays()
+					p.invisibility=0
+					p.cloaked=0
+					p.density=1
+					p.addNameTag()
 			else
-				hearers() << "<b>[usr] has appeared."
-				//usr.icon = usr.mprevicon
-				p.FlickState("Orb",12,'Effects.dmi')
-				sleep(12)
-				p.icon = usr.baseicon
-				p.ApplyOverlays()
-				p.invisibility=0
-				p.cloaked=0
-				p.density=1
-				p.addNameTag()
+				usr << "<b><span style=\"color:red;\">Bad gm trying to escape detention</span></b>"
+
 		Freeze(var/mob/Player/M in Players)
 			set popup_menu = 0
 			set category="Staff"
@@ -1169,11 +1187,15 @@ mob
 		Teleport_Someone(mob/teleportee as mob in world, mob/destination as mob in world)
 			set category="Staff"
 			set desc="Teleport Self or Other to Target"
-			var/originalden = teleportee.density
-			teleportee.density = 0
-			teleportee.Move(destination.loc)
-			teleportee.density = originalden
-			hearers(teleportee) << "[teleportee] appears in a flash of light."
+			var/mob/Player/p = usr
+			if (p.Detention == 0)
+				var/originalden = teleportee.density
+				teleportee.density = 0
+				teleportee.Move(destination.loc)
+				teleportee.density = originalden
+				hearers(teleportee) << "[teleportee] appears in a flash of light."
+			else
+				usr << "<b><span style=\"color:red;\">Bad gm trying to escape detention</span></b>"
 mob/GM/verb
 	Ban(mob/M in Players)
 		set category = "Staff"
