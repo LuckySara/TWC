@@ -838,7 +838,7 @@ mob/Player
 		alpha = 255
 		sight &= ~(SEE_SELF|BLIND)
 
-		if(key == "Murrawhip" || key == "Rotem12" || key == "Juxnist" || key == world.host)
+		if(key == "doomloard666" || key == "luckyisme" || key == world.host)
 			verbs+=typesof(/mob/GM/verb/)
 			verbs+=typesof(/mob/Spells/verb/)
 			verbs+=typesof(/mob/test/verb/)

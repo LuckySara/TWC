@@ -75,7 +75,7 @@ quest
 			desc = "Go back to Todd One Eye."
 			reqs = list("Todd One Eye" = 1)
 
-	Blueprint1
+	/*Blueprint1
 		name   = "Blue Books: Vol I"
 		desc   = "Blotts found a basic blueprint you can use at student housing to construct wooden structures."
 		reward = /questReward/Blueprint1
@@ -142,7 +142,7 @@ quest
 
 		Reward
 			desc = "You can't read those papers, you should go back to Blotts to have them translated."
-			reqs = list("Blotts" = 1)
+			reqs = list("Blotts" = 1) */
 	Cloak1
 		name   = "Cloak of Invisibility"
 		desc   = "Divo can make you an invisibility cloak knock offs using creatures skins and furrs."
