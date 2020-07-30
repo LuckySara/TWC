@@ -1,0 +1,11 @@
+FROM byondbase
+
+WORKDIR /opt
+RUN DreamDownload byond://Deadron.BaseCamp##version=23##guest
+RUN DreamDownload byond://Theodis.Pathfinder##version=10##guest
+RUN DreamDownload byond://Audeuro.INIReader2##version=3##guest
+RUN DreamDownload byond://Stephen001.EventScheduling##version=13##guest
+RUN DreamDownload byond://Rotem12.ColorMatrix##version=2##guest
+COPY ./ /opt
+
+RUN DreamMaker TWC.dme
