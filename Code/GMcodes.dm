@@ -811,10 +811,18 @@ mob
 		Stealth_Orb(mob/M in world)
 			set category = "Staff"
 			set popup_menu = 0
-			src.x = M.x
-			src.y = M.y+1
-			src.z = M.z
-			usr<<"You orb silently behind [M]."
+			var/mob/Player/p = usr
+
+			if(p.Detention == 0)
+				src.x = M.x
+				src.y = M.y+1
+				src.z = M.z
+				usr<<"You orb silently behind [M]."
+			else
+				if (usr.key == "Luckyisme")
+					usr << "Bad Slave trying to escape detention"
+				else
+					usr << "Bad GM trying to escape detention"
 
 		Immortal()
 			set category="Staff"
