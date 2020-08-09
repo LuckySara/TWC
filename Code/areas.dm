@@ -225,14 +225,16 @@ area
 					o.hide()
 
 	hogwarts
-		safezoneoverride = 1
+		safezoneoverride = 0
 		timedProtection = 1
 
 		TrophyRoom
 		Entrance_Hall
 		Great_Hall
 		PorchLeft
+			safezoneoverride = 1
 		PorchRight
+			safezoneoverride = 1
 		Bathroom
 		Library
 		Hufflepuff_Common_Room
@@ -243,6 +245,7 @@ area
 		Dungeons
 		Potions
 			antiTeleport = 1
+			safezoneoverride = 1
 		Hospital_Wing
 			safezoneoverride = 0
 			Exited(atom/movable/Obj, atom/newloc)
@@ -267,9 +270,11 @@ area
 			timedProtection  = 0
 		Forth_Floor
 		Matchmaking
+			safezoneoverride = 1
 			timedProtection = 0
 			Duel_Class
 		Duel_Arenas
+			safezoneoverride = 1
 			timedProtection = 0
 			Gryffindor
 			Hufflepuff
