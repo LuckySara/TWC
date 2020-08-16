@@ -446,8 +446,8 @@ quest
 		reward = /questReward/PVP2
 
 		Kill
-			desc = "Kill 1000 players."
-			reqs = list("Kill Player" = 1000)
+			desc = "Kill 200 players."
+			reqs = list("Kill Player" = 200)
 		Reward
 			desc = "Go back to the Zerf to get your reward!"
 			reqs = list("Zerf" = 1)
